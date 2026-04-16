@@ -1,18 +1,33 @@
 #include "../exercise.h"
 
-constexpr unsigned long long fibonacci(int i) {
+constexpr unsigned long long fibonacci_constexpr(int i) {
     switch (i) {
         case 0:
             return 0;
         case 1:
             return 1;
         default:
-            return fibonacci(i - 1) + fibonacci(i - 2);
+            return fibonacci_constexpr(i - 1) + fibonacci_constexpr(i - 2);
     }
 }
 
+unsigned long long fibonacci(int i) {
+    if (i <= 1) {
+        return i;
+    }
+
+    unsigned long long a = 0;
+    unsigned long long b = 1;
+    for (int n = 2; n <= i; ++n) {
+        auto next = a + b;
+        a = b;
+        b = next;
+    }
+    return b;
+}
+
 int main(int argc, char **argv) {
-    constexpr auto FIB20 = fibonacci(20);
+    constexpr auto FIB20 = fibonacci_constexpr(20);
     ASSERT(FIB20 == 6765, "fibonacci(20) should be 6765");
     std::cout << "fibonacci(20) = " << FIB20 << std::endl;
 
